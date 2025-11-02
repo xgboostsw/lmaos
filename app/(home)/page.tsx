@@ -22,7 +22,7 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col">
       <main className="max-w-5xl mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome to Google Colab</h1>
+          <h1 className="text-3xl font-bold mb-2">Welcome to Colab</h1>
           <p className="text-sm text-muted-foreground">Recent Notebooks</p>
         </div>
 
