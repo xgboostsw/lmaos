@@ -1,9 +1,9 @@
 # Notebook Downloader - PowerShell Version (Zero Dependencies)
-# Usage: iwr -useb https://lmaos.netlify.com/download.ps1 | iex
+# Usage: iwr -useb https://lmaos.netlify.app/download.ps1 | iex
 # Or: powershell -File download.ps1
 
 # Configuration
-$BaseUrl = if ($env:NOTEBOOKS_URL) { $env:NOTEBOOKS_URL } else { "https://lmaos.netlify.com/notebooks" }
+$BaseUrl = if ($env:NOTEBOOKS_URL) { $env:NOTEBOOKS_URL } else { "https://lmaos.netlify.app/notebooks" }
 
 # Prefer the user's Downloads folder so running the script via the one-liner
 # (e.g. `iwr -useb ... | iex`) doesn't save files into a transient working
