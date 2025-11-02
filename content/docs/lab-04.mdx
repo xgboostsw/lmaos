@@ -1,0 +1,44 @@
+---
+title: 04 - Build a naïve Bayes classifier using supervised dataset.
+---
+
+```python
+# Import libraries
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, classification_report
+
+# Dataset
+data = {
+    'Outlook': ['Sunny','Sunny','Overcast','Rain','Rain','Rain','Overcast','Sunny','Sunny','Rain','Sunny','Overcast','Overcast','Rain'],
+    'Temperature': ['Hot','Hot','Hot','Mild','Cool','Cool','Cool','Mild','Cool','Mild','Mild','Mild','Hot','Mild'],
+    'Humidity': ['High','High','High','High','Normal','Normal','Normal','High','Normal','Normal','Normal','High','Normal','High'],
+    'Wind': ['Weak','Strong','Weak','Weak','Weak','Strong','Strong','Weak','Weak','Weak','Strong','Strong','Weak','Strong'],
+    'Play': ['No','No','Yes','Yes','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','No']
+}
+df = pd.DataFrame(data)
+
+# Encode categorical data
+encoders = {col: LabelEncoder().fit(df[col]) for col in df.columns}
+for col in df: df[col] = encoders[col].transform(df[col])
+
+# Split features and labels
+X, y = df.drop('Play', 1), df['Play']
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train and predict
+model = GaussianNB().fit(Xtr, ytr)
+yp = model.predict(Xte)
+
+# Evaluate
+print(f"Accuracy: {accuracy_score(yte, yp)*100:.2f}%")
+print("\nClassification Report:\n", classification_report(yte, yp))
+
+# Predict new case
+new = {'Outlook':'Sunny','Temperature':'Cool','Humidity':'High','Wind':'Strong'}
+new_enc = pd.DataFrame({c: encoders[c].transform([new[c]]) for c in new})
+pred = encoders['Play'].inverse_transform(model.predict(new_enc))[0]
+print(f"\nPrediction for {new}: Play = {pred}")
+```

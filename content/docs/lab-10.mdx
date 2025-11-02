@@ -1,0 +1,40 @@
+---
+title: "Lab 10 - AdaBoost & XGBoost (Breast Cancer)"
+description: "Implement ensemble methods: AdaBoost and XGBoost for classification tasks."
+---
+
+```python
+# Importing libraries
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import AdaBoostClassifier
+from xgboost import XGBClassifier
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load sample dataset
+data = load_breast_cancer()
+X, y = data.data, data.target
+
+# Split the dataset
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# AdaBoost Classifier
+ada_model = AdaBoostClassifier(n_estimators=50, learning_rate=1.0, random_state=42)
+ada_model.fit(X_train, y_train)
+ada_preds = ada_model.predict(X_test)
+
+# XGBoost Classifier
+xgb_model = XGBClassifier(n_estimators=100, eval_metric='logloss', random_state=42)
+xgb_model.fit(X_train, y_train)
+xgb_preds = xgb_model.predict(X_test)
+
+# Evaluation
+print("AdaBoost Accuracy:", accuracy_score(y_test, ada_preds))
+print("XGBoost Accuracy:", accuracy_score(y_test, xgb_preds))
+
+print("\nClassification Report - AdaBoost:")
+print(classification_report(y_test, ada_preds))
+
+print("\nClassification Report - XGBoost:")
+print(classification_report(y_test, xgb_preds))
+```

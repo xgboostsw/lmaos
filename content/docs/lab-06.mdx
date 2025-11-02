@@ -1,0 +1,38 @@
+---
+title: 06 - Construct Decision Tree and Random Forest models for Iris Flower Classification.
+description: Compare Decision Tree and Random Forest on the Iris dataset
+---
+
+```python
+# Import libraries
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load Iris dataset
+iris = load_iris()
+X, y = iris.data, iris.target
+
+# Train-test split (70% train, 30% test)
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Decision Tree
+dt = DecisionTreeClassifier(random_state=42)
+dt.fit(Xtr, ytr)
+dt_pred = dt.predict(Xte)
+
+print("\n--- Decision Tree ---")
+print("Accuracy:", accuracy_score(yte, dt_pred))
+print(classification_report(yte, dt_pred, target_names=iris.target_names))
+
+# Random Forest
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(Xtr, ytr)
+rf_pred = rf.predict(Xte)
+
+print("\n--- Random Forest ---")
+print("Accuracy:", accuracy_score(yte, rf_pred))
+print(classification_report(yte, rf_pred, target_names=iris.target_names))
+```

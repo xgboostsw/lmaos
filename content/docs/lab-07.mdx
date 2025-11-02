@@ -1,0 +1,28 @@
+---
+title: 07 - KNN on Digits
+description: Apply K-nearest neighbors algorithm on handwritten digit classification.
+---
+
+```python
+# Import libraries
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+digits = load_digits()
+X, y = digits.data / 16.0, digits.target  # Normalize features
+
+# Split data
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train KNN model
+k = 5
+model = KNeighborsClassifier(n_neighbors=k)
+model.fit(Xtr, ytr)
+
+# Predict and evaluate
+yp = model.predict(Xte)
+print(f"KNN Classification Accuracy with k={k}: {accuracy_score(yte, yp):.4f}")
+```

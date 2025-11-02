@@ -1,0 +1,40 @@
+---
+title: 05 - To understand the Support Vector Machine (SVM) algorithm,
+description: its principles, and its application inclassification tasks by implementing the algorithm on a sample dataset.
+---
+
+```python
+# Import libraries
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import seaborn as sns, matplotlib.pyplot as plt
+
+# Load dataset
+X, y = load_breast_cancer(return_X_y=True)
+
+# Split data
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train models
+svm_lin = SVC(kernel='linear').fit(Xtr, ytr)
+svm_rbf = SVC(kernel='rbf', gamma=0.01).fit(Xtr, ytr)
+
+# Predictions
+yp_lin, yp_rbf = svm_lin.predict(Xte), svm_rbf.predict(Xte)
+
+# Results
+print("=== Linear Kernel ===")
+print("Accuracy:", round(accuracy_score(yte, yp_lin), 2))
+print(classification_report(yte, yp_lin))
+
+print("=== RBF Kernel ===")
+print("Accuracy:", round(accuracy_score(yte, yp_rbf), 2))
+print(classification_report(yte, yp_rbf))
+
+# Confusion matrix (Linear)
+sns.heatmap(confusion_matrix(yte, yp_lin), annot=True, cmap="Blues", fmt="d")
+plt.title("Confusion Matrix (Linear Kernel)")
+plt.xlabel("Predicted"); plt.ylabel("Actual"); plt.show()
+```
