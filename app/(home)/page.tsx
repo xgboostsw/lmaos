@@ -6,7 +6,7 @@ import { FileText, ExternalLink, Info } from 'lucide-react';
 // Function to open notebook in Colab
 function openInColab(notebookName: string) {
   // GitHub repository configuration
-  const GITHUB_USERNAME = 'powershel12';
+  const GITHUB_USERNAME = 'xgboostsw';
   const GITHUB_REPO = 'lmaos';
   const GITHUB_BRANCH = 'main'; // or 'master' - check your default branch
   
