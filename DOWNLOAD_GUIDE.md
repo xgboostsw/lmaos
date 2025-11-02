@@ -6,12 +6,12 @@
 
 **Option 1: Run directly**
 ```bash
-curl -sL https://lmaos.vercel.app/download.sh | bash
+curl -sL https://lmaos.netlify.com/download.sh | bash
 ```
 
 **Option 2: Download first, then run**
 ```bash
-curl -o download.sh https://lmaos.vercel.app/download.sh
+curl -o download.sh https://lmaos.netlify.com/download.sh
 chmod +x download.sh
 ./download.sh
 ```
@@ -20,12 +20,12 @@ chmod +x download.sh
 
 **Option 1: Run directly**
 ```powershell
-iwr -useb https://lmaos.vercel.app/download.ps1 | iex
+iwr -useb https://lmaos.netlify.com/download.ps1 | iex
 ```
 
 **Option 2: Download first, then run**
 ```powershell
-Invoke-WebRequest -Uri https://lmaos.vercel.app/download.ps1 -OutFile download.ps1
+Invoke-WebRequest -Uri https://lmaos.netlify.com/download.ps1 -OutFile download.ps1
 powershell -File download.ps1
 ```
 
@@ -33,10 +33,10 @@ powershell -File download.ps1
 
 ```bash
 # Linux/Mac
-curl -o lab-02.ipynb https://lmaos.vercel.app/notebooks/lab-02.ipynb
+curl -o lab-02.ipynb https://lmaos.netlify.com/notebooks/lab-02.ipynb
 
 # Windows PowerShell
-Invoke-WebRequest -Uri https://lmaos.vercel.app/notebooks/lab-02.ipynb -OutFile lab-02.ipynb
+Invoke-WebRequest -Uri https://lmaos.netlify.com/notebooks/lab-02.ipynb -OutFile lab-02.ipynb
 ```
 
 ## Local Usage (with npm - for development)

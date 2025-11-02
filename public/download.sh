@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Notebook Downloader - Zero Dependencies
-# Usage: curl -sL https://lmaos.vercel.app/download.sh | bash
+# Usage: curl -sL https://lmaos.netlify.com/download.sh | bash
 # Or: bash download.sh
 
 # Configuration
-BASE_URL="${NOTEBOOKS_URL:-https://lmaos.vercel.app/notebooks}"
+BASE_URL="${NOTEBOOKS_URL:-https://lmaos.netlify.com/notebooks}"
 OUTPUT_DIR="downloaded-notebooks"
 
 # Notebook list with titles
