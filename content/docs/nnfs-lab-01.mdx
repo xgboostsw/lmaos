@@ -1,0 +1,125 @@
+---
+title: Lab 01 - McCulloch-Pitts Neuron
+description: Understanding the McCulloch-Pitts neuron model and implementing an AND gate
+---
+
+## Installation
+
+Install the required dependencies:
+
+```bash
+pip install numpy
+```
+
+## AND Gate Implementation
+
+```python
+import numpy as np
+
+# Inputs (each column is one training example)
+X = np.array([
+    [0, 0, 1, 1],  # Input 1
+    [0, 1, 0, 1]   # Input 2
+])
+print(f'{X.shape=}')  # (2, 4)
+
+# Weights for AND gate
+W = np.array([[1, 1]])
+print(f'{W.shape=}')  # (1, 2)
+
+# Threshold
+theta = 2
+
+# McCulloch–Pitts neuron computation
+Z = W @ X
+print(f'{Z=}')  # Expected: array([[0, 1, 1, 2]])
+
+# Apply threshold activation function
+y_pred = [int(pred >= theta) for pred in Z.ravel()]
+print(f'{y_pred =}')  # Expected: [0, 0, 0, 1]
+```
+## NAND GATE Implementation
+```python
+import numpy as np
+
+X = np.array([[0, 0, 1, 1],
+              [0, 1, 0, 1]])
+print(f'{X.shape=}')
+X.shape = (2, 4)
+
+W = np.array([[1, 1]])
+print(f'{W.shape=}')
+W.shape = (1, 2)
+
+theta = 2
+Z = W @ X
+print(f'{Z=}')
+y_pred = [int(pred < theta) for pred in Z.ravel()]
+print(f'{y_pred =}')
+```
+## OR Gate Implementation
+```python
+import numpy as np
+
+# Inputs (each column is one training example)
+X = np.array([
+    [0, 0, 1, 1],  # Input 1
+    [0, 1, 0, 1]   # Input 2
+])
+print(f'{X.shape=}')  # (2, 4)
+
+# Weights for OR gate
+W = np.array([[1, 1]])
+print(f'{W.shape=}')  # (1, 2)
+
+# Threshold
+theta = 1
+
+# McCulloch–Pitts neuron computation
+Z = W @ X
+print(f'{Z=}')  # Expected: array([[0, 1, 1, 2]])
+
+# Apply threshold activation function (OR: output 1 if sum >= theta)
+y_pred = [int(pred >= theta) for pred in Z.ravel()]
+print(f'{y_pred =}')  # Expected: [0, 1, 1, 1]
+```
+# Bipolar Gates Implementation
+```python
+import numpy as np
+
+# Bipolar inputs
+x = np.array([
+    [-1, -1,  1,  1],
+    [-1,  1, -1,  1]
+])
+print(f'{x.shape=}')
+
+w = np.array([[1, 1]])
+print(f'{w.shape=}')
+
+# AND gate
+theta = 1.5
+z = w @ x
+print(f'{z=}')
+y_pred = [1 if pred >= theta else -1 for pred in z.ravel()]
+print(f'{y_pred = }')
+
+# OR gate
+theta = -0.5
+z = w @ x
+print(f'{z=}')
+y_pred = [1 if pred >= theta else -1 for pred in z.ravel()]
+print(f'{y_pred = }')
+
+# NAND gate
+theta = 1.5
+z = w @ x
+print(f'{z=}')
+y_pred = [1 if pred < theta else -1 for pred in z.ravel()]
+print(f'{y_pred = }')
+```
+
+## Notes
+- The McCulloch-Pitts neuron is the earliest computational model of biological neurons.
+- These examples demonstrate threshold-based activation; different threshold values produce different logic gates.
+- Bipolar representation uses -1 and 1 instead of 0 and 1.

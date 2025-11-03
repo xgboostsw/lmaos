@@ -1,0 +1,82 @@
+---
+title: Lab 06 - MultiLayer Back Propagation
+description: Small multi-layer neural network training example with ReLU and sigmoid activations (Exp6)
+---
+
+## Installation
+
+Install the required dependencies:
+
+```bash
+pip install numpy
+```
+
+# Multiple Layer Neural Network Training 
+
+This lab demonstrates a small multilayer neural network training loop using fixed initial weights, ReLU and Sigmoid activations, and MSE loss. It prints periodic loss and weight updates.
+
+```python
+# Exp6_MultiLayer_Neural_Network_Training
+
+import numpy as np
+
+def relu(z):
+    return np.maximum(0, z)
+
+def relu_derivative(z):
+    return (z > 0).astype(float)
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+def sigmoid_derivative(z):
+    s = sigmoid(z)
+    return s * (1 - s)
+
+def mse(y, y_hat):
+    return np.mean((y - y_hat) ** 2)
+
+def train_with_fixed_weights(X, Y, epochs=50):
+    W1 = np.array([
+        [0.1, -0.2],
+        [0.4,  0.3],
+        [-0.5,  0.2]
+    ])
+    W2 = np.array([
+        [0.3, -0.4, 0.1]
+    ])
+
+    for epoch in range(epochs):
+        Z1 = W1 @ X
+        A1 = relu(Z1)
+        Z2 = W2 @ A1
+        A2 = sigmoid(Z2)
+
+        loss = mse(Y, A2)
+
+        if epoch % 5 == 0:
+            print(f"Epoch {epoch}, MSE: {loss:.6f}")
+
+        if loss != 0 and epoch % 5 == 0:
+            dZ2 = 2 * (A2 - Y) * sigmoid_derivative(Z2)
+            dW2 = dZ2 @ A1.T / X.shape[1]
+
+            dZ1 = (W2.T @ dZ2) * relu_derivative(Z1)
+            dW1 = dZ1 @ X.T / X.shape[1]
+
+            W1 -= dW1
+            W2 -= dW2
+
+            print("Updated W1:\n", W1)
+            print("Updated W2:\n", W2)
+
+X = np.array([[0, 0, 1, 1],
+              [0, 1, 0, 1]])
+
+Y = np.array([[0, 1, 1, 0]])
+
+train_with_fixed_weights(X, Y)
+```
+
+## Notes
+- This is a small demonstrative example; for production training use proper batching, learning rates, and numerical stability measures.

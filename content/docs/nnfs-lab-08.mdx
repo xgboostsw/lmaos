@@ -1,0 +1,75 @@
+---
+title: Lab 08 - Multi Layer Perceptron Using TensorFlow For AND Gate
+description: Train a small multilayer perceptron in TensorFlow to learn the AND boolean function
+icon: Brain
+---
+
+## Installation
+
+Install the required dependencies:
+
+```bash
+pip install tensorflow
+```
+
+This lab shows a tiny multi-layer perceptron implemented in TensorFlow to learn the AND gate. It's intended to demonstrate how to use GradientTape for training, basic weight updates, and inspecting predictions.
+
+```python
+import tensorflow as tf
+
+# Dataset for AND gate
+X = tf.constant([[0., 0.],
+                 [0., 1.],
+                 [1., 0.],
+                 [1., 1.]], dtype=tf.float32)
+Y = tf.constant([[0.],
+                 [0.],
+                 [0.],
+                 [1.]], dtype=tf.float32)
+
+# Network parameters
+n_input = 2
+n_hidden = 4
+n_output = 1
+
+# Initialize weights and biases
+W1 = tf.Variable(tf.random.normal([n_input, n_hidden]))
+b1 = tf.Variable(tf.zeros([n_hidden]))
+W2 = tf.Variable(tf.random.normal([n_hidden, n_output]))
+b2 = tf.Variable(tf.zeros([n_output]))
+
+# Learning rate and epochs
+lr = 0.1
+epochs = 2
+
+# Training loop
+for epoch in range(epochs):
+    with tf.GradientTape() as tape:
+        hidden = tf.nn.relu(tf.matmul(X, W1) + b1)
+        output = tf.nn.sigmoid(tf.matmul(hidden, W2) + b2)
+        loss = tf.reduce_mean(tf.keras.losses.binary_crossentropy(Y, output))
+
+    grads = tape.gradient(loss, [W1, b1, W2, b2])
+    W1.assign_sub(lr * grads[0])
+    b1.assign_sub(lr * grads[1])
+    W2.assign_sub(lr * grads[2])
+    b2.assign_sub(lr * grads[3])
+
+    print(f"\nEpoch {epoch}, Loss: {loss.numpy()}")
+    print("Updated W1:\n", W1.numpy())
+    print("Updated b1:\n", b1.numpy())
+    print("Updated W2:\n", W2.numpy())
+    print("Updated b2:\n", b2.numpy())
+
+# Final predictions
+preds = tf.round(output)
+print("\nPredictions for AND gate:")
+for inp, pred in zip(X.numpy(), preds.numpy()):
+    print(f"{inp} -> {int(pred[0])}")
+
+```
+
+## Notes
+- This is a minimal example: increase `epochs` for meaningful training.
+- For reproducible results set a random seed (e.g., `tf.random.set_seed(42)`).
+- To run on Colab, paste the cell into a notebook and run; replace `print` statements with logging if needed.

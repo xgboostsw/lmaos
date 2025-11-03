@@ -1,0 +1,177 @@
+---
+title: Lab 02 - Single Layer Perceptron
+description: Implementing single-layer perceptron for basic logic gates (AND, OR, NAND, NOR)
+---
+
+## Installation
+
+Install the required dependencies:
+
+```bash
+pip install numpy
+```
+
+## AND Gate
+
+```python
+# Single Layer Perceptron - AND Gate
+
+import numpy as np
+
+# Input
+X = np.array([[0, 0, 1, 1],
+              [0, 1, 0, 1]])
+
+# Target for AND
+t = np.array([[0, 0, 0, 1]])
+
+# Add bias
+A = np.vstack((np.ones((1, 4)), X))
+
+# Initialize weights
+W = np.array([[0, 0, 0]])
+
+MAX_EPOCH = 10
+
+for ep in range(MAX_EPOCH):
+    isConv = True
+    for x, y in zip(A.T, t.ravel()):
+        Z = W @ x.T
+        if y > 0 and Z < 0:
+            W = W + x
+            isConv = False
+        if y < 1 and Z >= 0:
+            W = W - x
+            isConv = False
+    if isConv:
+        break
+
+Z = W @ A
+y_pred = [int(pred >= 0) for pred in Z.ravel()]
+print(f'{y_pred=}')
+```
+
+## OR Gate
+
+```python
+# Single Layer Perceptron - OR Gate
+
+import numpy as np
+
+# Input
+X = np.array([[0, 0, 1, 1],
+              [0, 1, 0, 1]])
+
+# Target for OR
+t = np.array([[0, 1, 1, 1]])
+
+# Add bias
+A = np.vstack((np.ones((1, 4)), X))
+
+# Initialize weights
+W = np.array([[0, 0, 0]])
+
+MAX_EPOCH = 10
+
+for ep in range(MAX_EPOCH):
+    isConv = True
+    for x, y in zip(A.T, t.ravel()):
+        Z = W @ x.T
+        if y > 0 and Z < 0:
+            W = W + x
+            isConv = False
+        if y < 1 and Z >= 0:
+            W = W - x
+            isConv = False
+    if isConv:
+        break
+
+Z = W @ A
+y_pred = [int(pred >= 0) for pred in Z.ravel()]
+print(f'{y_pred=}')
+```
+
+## NAND Gate
+
+```python
+# Single Layer Perceptron - NAND Gate
+
+import numpy as np
+
+# Input
+X = np.array([[0, 0, 1, 1],
+              [0, 1, 0, 1]])
+
+# Target for NAND
+t = np.array([[1, 1, 1, 0]])
+
+# Add bias
+A = np.vstack((np.ones((1, 4)), X))
+
+# Initialize weights
+W = np.array([[0, 0, 0]])
+
+MAX_EPOCH = 10
+
+for ep in range(MAX_EPOCH):
+    isConv = True
+    for x, y in zip(A.T, t.ravel()):
+        Z = W @ x.T
+        if y > 0 and Z < 0:
+            W = W + x
+            isConv = False
+        if y < 1 and Z >= 0:
+            W = W - x
+            isConv = False
+    if isConv:
+        break
+
+Z = W @ A
+y_pred = [int(pred >= 0) for pred in Z.ravel()]
+print(f'{y_pred=}')
+```
+
+## NOR Gate
+
+```python
+# Single Layer Perceptron - NOR Gate
+
+import numpy as np
+
+# Input
+X = np.array([[0, 0, 1, 1],
+              [0, 1, 0, 1]])
+
+# Target for NOR
+t = np.array([[1, 0, 0, 0]])
+
+# Add bias
+A = np.vstack((np.ones((1, 4)), X))
+
+# Initialize weights
+W = np.array([[0, 0, 0]])
+
+MAX_EPOCH = 10
+
+for ep in range(MAX_EPOCH):
+    isConv = True
+    for x, y in zip(A.T, t.ravel()):
+        Z = W @ x.T
+        if y > 0 and Z < 0:
+            W = W + x
+            isConv = False
+        if y < 1 and Z >= 0:
+            W = W - x
+            isConv = False
+    if isConv:
+        break
+
+Z = W @ A
+y_pred = [int(pred >= 0) for pred in Z.ravel()]
+print(f'{y_pred=}')
+```
+
+## Notes
+- The perceptron learning rule adjusts weights when predictions don't match targets.
+- These examples converge quickly for linearly separable logic gates.
+- The bias term is included in the augmented input matrix `A`.

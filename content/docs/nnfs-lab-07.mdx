@@ -1,0 +1,100 @@
+---
+title: Lab 07 - Activation Functions and Their Derivatives
+description: Visualizing activation functions and their derivatives using TensorFlow
+---
+
+## Installation
+
+Install the required dependencies:
+
+```bash
+pip install tensorflow matplotlib numpy
+```
+
+This lab plots several activation functions and their derivatives using TensorFlow's automatic differentiation (GradientTape).
+
+```python
+# Exp7_Activation_Functions_and_Their_Derivatives
+
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Input range
+X = tf.Variable(np.arange(-5, +5, 0.1), dtype=tf.float32)
+
+# Linear Activation
+with tf.GradientTape(persistent=True) as tape1:
+    tape1.watch(X)
+    Y = X
+dy_dx = tape1.gradient(Y, X)
+
+plt.plot(X, Y, color='red', label="Linear")
+plt.plot(X, dy_dx, color='blue', label="Derivative of Linear")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Unipolar Sigmoid Activation
+with tf.GradientTape(persistent=True) as tape2:
+    tape2.watch(X)
+    Y = 1 / (1 + tf.exp(-X))
+dy_dx = tape2.gradient(Y, X)
+
+plt.plot(X, Y, color='red', label="Unipolar Sigmoid")
+plt.plot(X, dy_dx, color='blue', label="Derivative of Unipolar Sigmoid")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Bipolar Sigmoid Activation
+with tf.GradientTape(persistent=True) as tape3:
+    tape3.watch(X)
+    Y = (2 / (1 + tf.exp(-X))) - 1
+dy_dx = tape3.gradient(Y, X)
+
+plt.plot(X, Y, color='red', label="Bipolar Sigmoid")
+plt.plot(X, dy_dx, color='blue', label="Derivative of Bipolar Sigmoid")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# ReLU Activation
+with tf.GradientTape(persistent=True) as tape4:
+    tape4.watch(X)
+    Y = tf.maximum(0, X)
+dy_dx = tape4.gradient(Y, X)
+
+plt.plot(X, Y, color='red', label="ReLU")
+plt.plot(X, dy_dx, color='blue', label="Derivative of ReLU")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Leaky ReLU Activation
+alpha = 0.1
+with tf.GradientTape(persistent=True) as tape5:
+    tape5.watch(X)
+    Y = tf.maximum(alpha * X, X)
+dy_dx = tape5.gradient(Y, X)
+
+plt.plot(X, Y, color='red', label="Leaky ReLU")
+plt.plot(X, dy_dx, color='blue', label="Derivative of Leaky ReLU")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+## Notes
+- TensorFlow is used here for automatic differentiation; if you prefer, these derivatives can be computed analytically using NumPy.
+- To render plots in headless environments, save figures to files (plt.savefig) instead of plt.show().

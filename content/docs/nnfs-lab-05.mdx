@@ -1,0 +1,64 @@
+---
+title: Lab 05 - Single Layer Neural Backward Pass
+description: Training a single-layer neural network with sigmoid activation 
+---
+
+## Installation
+
+Install the required dependencies:
+
+```bash
+pip install numpy
+```
+
+# Single Layer Neural Network Training
+
+This lab demonstrates a tiny single-layer neural network with a sigmoid activation and a basic training loop (mean squared error and gradient via sigmoid derivative).
+
+```python
+# Exp5_SingleLayer_Neural_Network_Training
+
+import numpy as np
+
+class SingleLayerNN:
+    def __init__(self, input_size, output_size):
+        self.W = np.random.randn(input_size, output_size)
+        self.b = np.zeros((1, output_size))
+
+    def sigmoid(self, z):
+        return 1 / (1 + np.exp(-z))
+
+    def sigmoid_derivative(self, s):
+        return s * (1 - s)
+
+    def forward(self, X):
+        self.z = np.dot(X, self.W) + self.b
+        self.a = self.sigmoid(self.z)
+        return self.a
+
+    def train(self, X, y, epochs=2):
+        for epoch in range(epochs):
+            output = self.forward(X)
+            error = y - output
+            dW = np.dot(X.T, error * self.sigmoid_derivative(output))
+            self.W += dW
+            loss = np.mean(error**2)
+            print(f"Epoch {epoch}, Loss: {loss:.4f}")
+
+X = np.array([
+    [0.1, 0.2, 0.7],
+    [0.3, 0.5, 0.9],
+    [0.6, 0.1, 0.3],
+    [0.8, 0.4, 0.5]
+])
+
+y = np.array([[1], [0], [1], [0]])
+
+nn = SingleLayerNN(input_size=3, output_size=1)
+nn.train(X, y, epochs=2)
+
+print("\nFinal predictions:\n", nn.forward(X))
+```
+
+## Notes
+- This example uses a basic weight update (no learning rate) for demonstration. For stable training, add a learning rate and consider mini-batches.

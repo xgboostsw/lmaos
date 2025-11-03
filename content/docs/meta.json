@@ -1,0 +1,24 @@
+{
+  "title": "Documentation",
+  "pages": [
+    "---Machine Learning---",
+    "ml-lab-02",
+    "ml-lab-03",
+    "ml-lab-04",
+    "ml-lab-05",
+    "ml-lab-06",
+    "ml-lab-07",
+    "ml-lab-08",
+    "ml-lab-09",
+    "ml-lab-10",
+    "---Neural Networks from Scratch---",
+    "nnfs-lab-01",
+    "nnfs-lab-02",
+    "nnfs-lab-03",
+    "nnfs-lab-04",
+    "nnfs-lab-05",
+    "nnfs-lab-06",
+    "nnfs-lab-07",
+    "nnfs-lab-08"
+  ]
+}

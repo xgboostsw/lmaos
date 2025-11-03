@@ -1,7 +1,7 @@
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import './global.css';
 import { Inter } from 'next/font/google';
-import ReplaceHeaderLogo from '@/components/ReplaceHeaderLogo';
+import ReplaceHeaderLogo from '@/components/HeaderLogo';
 
 const inter = Inter({
   subsets: ['latin'],

@@ -1,0 +1,56 @@
+---
+title: Lab 03 - Single Layer Feedforward Network
+description: Single-layer feedforward network and activation functions (linear, ReLU, sigmoid, bipolar sigmoid)
+---
+
+## Installation
+
+Install the required dependencies:
+
+```bash
+pip install numpy
+```
+
+This lab demonstrates a simple single-layer feedforward network (perceptron) and shows results for several activation functions.
+
+```python
+# Exp3 - Single Layer Feedforward Network
+
+import numpy as np
+
+x1, x2 = 1.0, 0.0
+
+w0 = 0.5   # bias
+w1 = 1.0
+w2 = -1.5
+
+def linear(z):
+    return z
+
+def relu(z):
+    return np.maximum(0.0, z)
+
+def sigmoid(z):
+    return 1.0 / (1.0 + np.exp(-z))
+
+def bipolar_sigmoid(z):
+    return 2 * sigmoid(z) - 1
+
+print("Single-Layer Perceptron")
+print(f"Input: x1 = {x1}, x2 = {x2}")
+print(f"Weights: w0 = {w0} (bias), w1 = {w1}, w2 = {w2}")
+
+z = w0 * 1.0 + w1 * x1 + w2 * x2
+print(f"\nWeighted sum formula: z = w0*1 + w1*x1 + w2*x2")
+print(f"z = {w0}*1 + {w1}*{x1} + {w2}*{x2} = {z}")
+
+print(f"\nLinear(z)           = {linear(z)}")
+print(f"ReLU(z)             = {relu(z)}")
+print(f"Sigmoid(z)          = {sigmoid(z)}")
+print(f"Bipolar Sigmoid(z)  = {bipolar_sigmoid(z)}")
+```
+
+## Notes
+- This demonstrates a single-layer feedforward pass with no training.
+- Different activation functions produce different outputs for the same weighted sum.
+- ReLU is widely used in modern deep learning due to its computational efficiency.
