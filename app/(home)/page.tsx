@@ -22,8 +22,8 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col">
       <main className="max-w-5xl mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome to ML Labs</h1>
-          <p className="text-sm text-muted-foreground">Machine Learning & Neural Networks</p>
+          <h1 className="text-3xl font-bold mb-2">Welcome to Colab</h1>
+          <p className="text-sm text-muted-foreground">Recent Notebooks</p>
         </div>
 
         {/* ML Category */}
@@ -250,12 +250,12 @@ export default function HomePage() {
         
         {/* NNFS Category */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 px-4">Neural Networks from Scratch</h2>
+          <h2 className="text-xl font-semibold mb-4 px-4">Neural Networks</h2>
           <div className="space-y-1">
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">NNFS Lab 01 - McCulloch-Pitts Neuron</h3>
+                <h3 className="text-sm font-medium">Lab 01 - McCulloch-Pitts Neuron</h3>
                 <p className="text-xs text-muted-foreground truncate">Understanding the McCulloch-Pitts neuron model and implementing an AND gate</p>
               </div>
               <div className="flex items-center gap-2">
@@ -272,7 +272,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">NNFS Lab 02 - Single Layer Perceptron</h3>
+                <h3 className="text-sm font-medium">Lab 02 - Single Layer Perceptron</h3>
                 <p className="text-xs text-muted-foreground truncate">Perceptron learning for AND / OR / NAND / NOR</p>
               </div>
               <div className="flex items-center gap-2">
@@ -289,7 +289,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">NNFS Lab 03 - Single Layer Feedforward Network</h3>
+                <h3 className="text-sm font-medium">Lab 03 - Single Layer Feedforward Network</h3>
                 <p className="text-xs text-muted-foreground truncate">Activation functions demo: linear, ReLU, sigmoid, bipolar sigmoid</p>
               </div>
               <div className="flex items-center gap-2">
@@ -306,7 +306,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">NNFS Lab 04 - Multiple Layer Perceptron</h3>
+                <h3 className="text-sm font-medium">Lab 04 - Multiple Layer Perceptron</h3>
                 <p className="text-xs text-muted-foreground truncate">Forward pass and activation examples (Exp4)</p>
               </div>
               <div className="flex items-center gap-2">
@@ -323,7 +323,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">NNFS Lab 05 - Single Layer Neural Network Training</h3>
+                <h3 className="text-sm font-medium">Lab 05 - Single Layer Neural Network Training</h3>
                 <p className="text-xs text-muted-foreground truncate">Tiny training loop example (Exp5)</p>
               </div>
               <div className="flex items-center gap-2">
@@ -340,7 +340,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">NNFS Lab 06 - MultiLayer NN Training</h3>
+                <h3 className="text-sm font-medium">Lab 06 - MultiLayer NN Training</h3>
                 <p className="text-xs text-muted-foreground truncate">Training and forward-pass example (Exp6)</p>
               </div>
               <div className="flex items-center gap-2">
@@ -357,7 +357,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">NNFS Lab 07 - Activation Functions and Their Derivatives</h3>
+                <h3 className="text-sm font-medium">Lab 07 - Activation Functions and Their Derivatives</h3>
                 <p className="text-xs text-muted-foreground truncate">Visualize activations and their gradients using TensorFlow (Exp7)</p>
               </div>
               <div className="flex items-center gap-2">
@@ -374,7 +374,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">NNFS Lab 08 - Multi Layer Perceptron (TensorFlow)</h3>
+                <h3 className="text-sm font-medium">Lab 08 - Multi Layer Perceptron (TensorFlow)</h3>
                 <p className="text-xs text-muted-foreground truncate">Train a tiny MLP for the AND gate using TensorFlow (Exp8)</p>
               </div>
               <div className="flex items-center gap-2">
