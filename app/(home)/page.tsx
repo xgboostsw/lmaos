@@ -26,26 +26,26 @@ export default function HomePage() {
           <p className="text-sm text-muted-foreground">Recent Notebooks</p>
         </div>
 
-        {/* ML Category */}
+        {/* FE Category */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 px-4">Machine Learning</h2>
+          <h2 className="text-xl font-semibold mb-4 px-4">Feature Engineering</h2>
           <div className="space-y-1">
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 02 - Linear Regression</h3>
-                <p className="text-xs text-muted-foreground truncate">Humidity vs Temperature Prediction</p>
+                <h3 className="text-sm font-medium">Lab 01 - Data Exploration with Iris Dataset</h3>
+                <p className="text-xs text-muted-foreground truncate">Basic data exploration techniques using pandas</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/ml-lab-02"
+                  href="/docs/fe-lab-01"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
                 <button 
-                  onClick={() => openInColab('lab-02')}
+                  onClick={() => openInColab('exp1FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
@@ -57,19 +57,19 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 03 - Logistic Regression</h3>
-                <p className="text-xs text-muted-foreground truncate">Iris Classification (Setosa vs Others)</p>
+                <h3 className="text-sm font-medium">Lab 02 - Data Visualization and Cleaning</h3>
+                <p className="text-xs text-muted-foreground truncate">Correlation heatmaps, handling missing values</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/ml-lab-03"
+                  href="/docs/fe-lab-02"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
                 <button 
-                  onClick={() => openInColab('lab-03')}
+                  onClick={() => openInColab('exp2FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
@@ -81,19 +81,19 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 04 - Naive Bayes</h3>
-                <p className="text-xs text-muted-foreground truncate">Play Prediction from Weather Data</p>
+                <h3 className="text-sm font-medium">Lab 03 - Categorical Encoding Comparison</h3>
+                <p className="text-xs text-muted-foreground truncate">Label Encoding vs One-Hot Encoding on Titanic</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/ml-lab-04"
+                  href="/docs/fe-lab-03"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
                 <button 
-                  onClick={() => openInColab('lab-04')}
+                  onClick={() => openInColab('exp3FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
@@ -105,19 +105,19 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 05 - SVM</h3>
-                <p className="text-xs text-muted-foreground truncate">Breast Cancer Classification (Linear vs RBF)</p>
+                <h3 className="text-sm font-medium">Lab 04 - Min-Max Scaling Impact</h3>
+                <p className="text-xs text-muted-foreground truncate">Impact of Min-Max scaling on Logistic Regression & KNN</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/ml-lab-05"
+                  href="/docs/fe-lab-04"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
                 <button 
-                  onClick={() => openInColab('lab-05')}
+                  onClick={() => openInColab('exp4FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
@@ -129,19 +129,19 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 06 - Decision Trees</h3>
-                <p className="text-xs text-muted-foreground truncate">Decision Tree & Random Forest on Iris</p>
+                <h3 className="text-sm font-medium">Lab 05 - Standardization Impact on Convergence</h3>
+                <p className="text-xs text-muted-foreground truncate">Comparing Logistic Regression with/without standardization</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/ml-lab-06"
+                  href="/docs/fe-lab-05"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
                 <button 
-                  onClick={() => openInColab('lab-06')}
+                  onClick={() => openInColab('exp5FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
@@ -153,19 +153,19 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 07 - KNN</h3>
-                <p className="text-xs text-muted-foreground truncate">K-Nearest Neighbors on Digits Dataset</p>
+                <h3 className="text-sm font-medium">Lab 06 - Binning and Discretization</h3>
+                <p className="text-xs text-muted-foreground truncate">Quantization and binning techniques for continuous features</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/ml-lab-07"
+                  href="/docs/fe-lab-06"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
                 <button 
-                  onClick={() => openInColab('lab-07')}
+                  onClick={() => openInColab('exp6FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
@@ -177,19 +177,19 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 08 - K-Means</h3>
-                <p className="text-xs text-muted-foreground truncate">K-Means Clustering on Iris Dataset</p>
+                <h3 className="text-sm font-medium">Lab 07 - Bag of Words (BoW)</h3>
+                <p className="text-xs text-muted-foreground truncate">Implementing BoW text vectorization from scratch</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/ml-lab-08"
+                  href="/docs/fe-lab-07"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
                 <button 
-                  onClick={() => openInColab('lab-08')}
+                  onClick={() => openInColab('exp7FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
@@ -201,19 +201,19 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 09 - PCA</h3>
-                <p className="text-xs text-muted-foreground truncate">PCA Visualization on Iris Dataset</p>
+                <h3 className="text-sm font-medium">Lab 08 - Bag of Words Implementation</h3>
+                <p className="text-xs text-muted-foreground truncate">Alternative BoW text vectorization approach</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/ml-lab-09"
+                  href="/docs/fe-lab-08"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
                 <button 
-                  onClick={() => openInColab('lab-09')}
+                  onClick={() => openInColab('exp8FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
@@ -225,19 +225,19 @@ export default function HomePage() {
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 10 - Ensemble Methods</h3>
-                <p className="text-xs text-muted-foreground truncate">AdaBoost & XGBoost on Breast Cancer</p>
+                <h3 className="text-sm font-medium">Lab 09 - TF-IDF Vectorization</h3>
+                <p className="text-xs text-muted-foreground truncate">Term Frequency-Inverse Document Frequency</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/ml-lab-10"
+                  href="/docs/fe-lab-09"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
                 <button 
-                  onClick={() => openInColab('lab-10')}
+                  onClick={() => openInColab('exp9FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
@@ -245,146 +245,28 @@ export default function HomePage() {
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-        
-        {/* NNFS Category */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 px-4">Neural Networks</h2>
-          <div className="space-y-1">
-            <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
-              <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 01 - McCulloch-Pitts Neuron</h3>
-                <p className="text-xs text-muted-foreground truncate">Understanding the McCulloch-Pitts neuron model and implementing an AND gate</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link 
-                  href="/docs/nnfs-lab-01"
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <Info className="w-3 h-3" />
-                  Show details
-                </Link>
-              </div>
-            </div>
 
             <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
               <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 02 - Single Layer Perceptron</h3>
-                <p className="text-xs text-muted-foreground truncate">Perceptron learning for AND / OR / NAND / NOR</p>
+                <h3 className="text-sm font-medium">Lab 10 - Feature Selection Techniques</h3>
+                <p className="text-xs text-muted-foreground truncate">Variance Threshold, Information Gain, Chi-Square</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link 
-                  href="/docs/nnfs-lab-02"
+                  href="/docs/fe-lab-10"
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
-              <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 03 - Single Layer Feedforward Network</h3>
-                <p className="text-xs text-muted-foreground truncate">Activation functions demo: linear, ReLU, sigmoid, bipolar sigmoid</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link 
-                  href="/docs/nnfs-lab-03"
+                <button 
+                  onClick={() => openInColab('exp10FE')}
                   className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
                 >
-                  <Info className="w-3 h-3" />
-                  Show details
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
-              <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 04 - Multiple Layer Perceptron</h3>
-                <p className="text-xs text-muted-foreground truncate">Forward pass and activation examples (Exp4)</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link 
-                  href="/docs/nnfs-lab-04"
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <Info className="w-3 h-3" />
-                  Show details
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
-              <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 05 - Single Layer Neural Network Training</h3>
-                <p className="text-xs text-muted-foreground truncate">Tiny training loop example (Exp5)</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link 
-                  href="/docs/nnfs-lab-05"
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <Info className="w-3 h-3" />
-                  Show details
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
-              <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 06 - MultiLayer NN Training</h3>
-                <p className="text-xs text-muted-foreground truncate">Training and forward-pass example (Exp6)</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link 
-                  href="/docs/nnfs-lab-06"
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <Info className="w-3 h-3" />
-                  Show details
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
-              <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 07 - Activation Functions and Their Derivatives</h3>
-                <p className="text-xs text-muted-foreground truncate">Visualize activations and their gradients using TensorFlow (Exp7)</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link 
-                  href="/docs/nnfs-lab-07"
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <Info className="w-3 h-3" />
-                  Show details
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 px-4 py-3 hover:bg-accent rounded-lg transition-colors group">
-              <FileText className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium">Lab 08 - Multi Layer Perceptron (TensorFlow)</h3>
-                <p className="text-xs text-muted-foreground truncate">Train a tiny MLP for the AND gate using TensorFlow (Exp8)</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link 
-                  href="/docs/nnfs-lab-08"
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <Info className="w-3 h-3" />
-                  Show details
-                </Link>
+                  <ExternalLink className="w-3 h-3" />
+                  Open
+                </button>
               </div>
             </div>
           </div>
