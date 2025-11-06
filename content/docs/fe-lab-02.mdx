@@ -1,0 +1,227 @@
+---
+title: FE Lab 02 - Data Visualization and Cleaning
+description: Correlation heatmaps, handling missing values, and data visualization techniques
+---
+
+## Aim
+To implement data visualization techniques and handle missing values effectively using correlation heatmaps, pair plots, box plots, and various cleaning methods.
+
+## Theory
+
+### Data Visualization
+Data visualization is crucial for understanding patterns, relationships, and distributions in data. Key visualization types include:
+
+1. **Correlation Heatmap**: Shows correlation coefficients between numerical features
+   - Values range from -1 (negative correlation) to +1 (positive correlation)
+   - Helps identify multicollinearity and feature relationships
+
+2. **Pair Plot**: Matrix of scatter plots showing relationships between all pairs of features
+   - Diagonal shows distribution of individual features
+   - Useful for identifying linear/non-linear relationships
+
+3. **Box Plot**: Displays distribution through quartiles
+   - Shows median, quartiles, and outliers
+   - Useful for comparing distributions across categories
+
+4. **Histogram**: Shows frequency distribution of continuous variables
+   - Helps identify skewness and distribution patterns
+
+### Missing Value Handling
+
+Missing values can significantly impact analysis and model performance. Common strategies:
+
+1. **Detection**: Using `isnull()` and `notnull()`
+2. **Deletion**: 
+   - `dropna()`: Remove rows with any missing values
+   - `dropna(how='all')`: Remove rows where all values are missing
+   - `dropna(axis=1)`: Remove columns with missing values
+3. **Imputation**: Fill missing values (not covered in this lab)
+
+### Skewness
+Measures asymmetry in distribution:
+- Skewness = 0: Symmetric distribution
+- Skewness > 0: Right-skewed (tail on right)
+- Skewness < 0: Left-skewed (tail on left)
+
+## Algorithm
+
+1. Load Iris dataset and add species names
+2. Create correlation heatmap for numerical features
+3. Demonstrate various missing value detection methods:
+   - Check for NaN values
+   - Drop rows with NaN
+   - Drop rows with all NaN
+   - Drop columns with NaN
+4. Save cleaned data to CSV
+5. Create pair plot with species coloring
+6. Create box plot for sepal width by species
+7. Detect missing values in custom dataset
+8. Create count plot for species distribution
+9. Generate histograms with skewness values
+
+## Program
+
+```python
+# Correlation Heatmap
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+
+# Load Iris dataset
+iris = load_iris(as_frame=True)
+df = iris.frame   # DataFrame includes features + target
+
+# Correlation heatmap
+corr = df.drop(columns=["target"]).corr()
+plt.figure(figsize=(7, 5))
+sns.heatmap(corr, annot=True, cmap="Pastel1", vmin=-1, vmax=1)
+plt.title("Correlation Heatmap")
+plt.show()
+
+
+# Dropping NaN values
+import pandas as pd
+from sklearn.datasets import load_iris
+
+iris = load_iris(as_frame=True)
+df = iris.frame
+
+df_cleaned = df.dropna()
+print("Original shape:", df.shape)
+print("After dropping NaNs:", df_cleaned.shape)
+print(df_cleaned.head())
+
+
+# Dropping rows with all NaN
+import pandas as pd
+from sklearn.datasets import load_iris
+
+iris = load_iris(as_frame=True)
+df = iris.frame
+
+df_cleaned = df.dropna(how="all")
+print("Original shape:", df.shape)
+print("After dropping rows with all NaN:", df_cleaned.shape)
+
+
+# Dropping columns with any NaN
+import pandas as pd
+from sklearn.datasets import load_iris
+
+iris = load_iris(as_frame=True)
+df = iris.frame
+
+df_cleaned = df.dropna(axis=1, how="any")
+print("Original columns:", df.columns.tolist())
+print("Remaining columns after drop:", df_cleaned.columns.tolist())
+
+
+# Saving cleaned data
+import pandas as pd
+from sklearn.datasets import load_iris
+
+iris = load_iris(as_frame=True)
+df = iris.frame
+
+df_cleaned = df.dropna()
+df_cleaned.to_csv("iris_cleaned.csv", index=False)
+print("Original shape:", df.shape)
+print("After dropping rows with missing values:", df_cleaned.shape)
+
+
+# Pair plot
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+import pandas as pd
+
+iris = load_iris(as_frame=True)
+df = iris.frame
+df["species"] = df["target"].map(lambda x: iris.target_names[x])  # add species names
+
+sns.set_palette("Pastel1")
+pair = sns.pairplot(df, hue="species")
+pair.fig.suptitle("Pair plot for Iris Dataset", y=1.02)
+plt.show()
+
+
+# Boxplot
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.boxplot(x="species", y="sepal width (cm)", data=df, color="salmon")
+plt.title("Boxplot of Sepal Width by Species")
+plt.xlabel("Species")
+plt.ylabel("Sepal Width (cm)")
+plt.show()
+
+
+# Detecting missing values
+import pandas as pd
+import numpy as np
+
+# Create a dictionary with missing values
+d = {
+    "First Score": [100, 90, np.nan, 95],
+    "Second Score": [30, 45, 56, np.nan],
+    "Third Score": [np.nan, 40, 80, 98],
+}
+
+# Convert to DataFrame
+df_missing = pd.DataFrame(d)
+
+# Detect missing values
+mv = df_missing.isnull()
+print("Missing values (True means NaN):\n", mv)
+
+
+# Check where values are NOT missing
+nmv = df_missing.notnull()
+print("Non-missing values (True means value exists):\n", nmv)
+
+
+# Count plot
+species_counts = df["species"].value_counts()
+
+plt.figure(figsize=(8, 6))
+plt.bar(species_counts.index, species_counts.values, color="darkblue")
+plt.title("Count plot of species")
+plt.xlabel("Species")
+plt.ylabel("Count")
+plt.show()
+
+
+# Histogram with skewness
+sns.set_style("darkgrid")
+numerical_columns = df.select_dtypes(include=["int64", "float64"]).columns
+
+plt.figure(figsize=(14, len(numerical_columns) * 3))
+for idx, feature in enumerate(numerical_columns, 1):
+    plt.subplot(len(numerical_columns), 1, idx)
+    sns.histplot(df[feature], kde=True, color="skyblue")
+    plt.title(f"{feature} | Skewness: {round(df[feature].skew(), 2)}")
+
+plt.tight_layout()
+plt.show()
+```
+
+## Output
+The program generates:
+1. **Correlation Heatmap**: Visual representation of feature correlations
+2. **Cleaned Dataset Shape**: Original vs. after dropping NaN
+3. **Pair Plot**: Scatter plot matrix colored by species
+4. **Box Plot**: Distribution of sepal width across species
+5. **Missing Value Detection**: Boolean matrix showing NaN locations
+6. **Count Plot**: Bar chart of species frequencies (50 each)
+7. **Histograms**: Distribution plots with skewness values for all numerical features
+
+## Result
+Successfully implemented data visualization and cleaning techniques. Learned to:
+- Visualize correlations using heatmaps
+- Handle missing values through various dropping strategies
+- Create informative plots (pair plots, box plots, histograms)
+- Detect and analyze missing data patterns
+- Calculate and interpret skewness in distributions
+- Export cleaned data for further analysis

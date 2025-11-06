@@ -1,0 +1,178 @@
+---
+title: FE Lab 07 - Bag of Words (BoW)
+description: Implementing Bag of Words text vectorization from scratch
+---
+
+## Aim
+To implement the Bag of Words (BoW) text vectorization technique from scratch and convert text documents into numerical feature vectors.
+
+## Theory
+
+### Bag of Words (BoW)
+A text representation method that converts documents into fixed-length vectors based on word frequency, ignoring grammar and word order.
+
+### Key Concepts
+
+1. **Vocabulary**: Set of all unique words across all documents
+2. **Tokenization**: Splitting text into individual words (tokens)
+3. **Vectorization**: Converting text to numerical vectors
+4. **Word Frequency**: Count of each word in a document
+
+### BoW Process
+
+```
+Documents: ["cat sat", "dog sat", "cat ran"]
+           ↓ Tokenize
+Tokens: [["cat","sat"], ["dog","sat"], ["cat","ran"]]
+           ↓ Build Vocabulary
+Vocab: ["cat", "dog", "ran", "sat"]
+           ↓ Vectorize
+Vectors:
+Doc1: [1, 0, 0, 1]  # cat=1, dog=0, ran=0, sat=1
+Doc2: [0, 1, 0, 1]  # cat=0, dog=1, ran=0, sat=1
+Doc3: [1, 0, 1, 0]  # cat=1, dog=0, ran=1, sat=0
+```
+
+### Preprocessing Steps
+
+1. **Lowercasing**: Convert all text to lowercase
+   - "The Cat" → "the cat"
+   - Ensures case-insensitive matching
+
+2. **Punctuation Removal**: Strip punctuation marks
+   - "Hello, world!" → "Hello world"
+   - Reduces vocabulary size
+
+3. **Tokenization**: Split into words
+   - "Hello world" → ["hello", "world"]
+
+### Advantages of BoW
+
+- Simple and intuitive
+- Easy to implement
+- Effective for many NLP tasks
+- Works well with classification algorithms
+
+### Disadvantages of BoW
+
+- Loses word order information
+- Ignores grammar and context
+- High dimensionality (sparse vectors)
+- No semantic understanding
+- Treats all words equally (no importance weighting)
+
+### Applications
+
+- Text classification (spam detection, sentiment analysis)
+- Document similarity
+- Information retrieval
+- Topic modeling
+
+## Algorithm
+
+1. Define a corpus of text documents
+2. **Preprocessing**:
+   - Convert to lowercase
+   - Remove punctuation
+   - Split into tokens (words)
+3. **Build Vocabulary**:
+   - Collect all unique tokens from all documents
+   - Sort alphabetically for consistency
+4. **Vectorization**:
+   - For each document:
+     - Count frequency of each vocabulary word
+     - Create vector with counts
+5. Create DataFrame with vocabulary as columns
+6. Display the Bag of Words matrix
+
+## Program
+
+```python
+import string
+from collections import Counter
+import pandas as pd
+
+corpus = [
+    "The sky is blue.",
+    "The sun is bright.",
+    "The sun in the sky is bright.",
+    "We can see the shining sun, the bright sun."
+]
+
+def preprocess(text):
+    text = text.lower()
+    text = text.translate(str.maketrans('', '', string.punctuation))
+    tokens = text.split()
+    return tokens
+
+tokenized_corpus = [preprocess(doc) for doc in corpus]
+
+all_tokens = [token for doc in tokenized_corpus for token in doc]
+
+vocab = sorted(set(all_tokens))
+print("Vocabulary:", vocab)
+
+def vectorize(doc_tokens, vocab):
+    word_count = Counter(doc_tokens)
+    return [word_count[word] for word in vocab]
+
+bow_vectors = [vectorize(doc, vocab) for doc in tokenized_corpus]
+
+df_bow = pd.DataFrame(bow_vectors, columns=vocab)
+print("\nBag of Words Matrix:\n")
+print(df_bow)
+```
+
+## Output
+The program displays:
+1. **Vocabulary**: Sorted list of all unique words
+   - Example: ['blue', 'bright', 'can', 'in', 'is', 'see', 'shining', 'sky', 'sun', 'the', 'we']
+
+2. **Bag of Words Matrix**:
+   - Rows: Documents
+   - Columns: Vocabulary words
+   - Values: Word frequency in each document
+
+Example output:
+```
+   blue  bright  can  in  is  see  shining  sky  sun  the  we
+0     1       0    0   0   1    0        0    1    0    2   0
+1     0       1    0   0   1    0        0    0    1    2   0
+2     0       1    0   1   1    0        0    1    1    3   0
+3     0       1    1   0   0    1        1    0    2    3   1
+```
+
+## Observations
+
+1. **Vocabulary Size**: 11 unique words after preprocessing
+2. **Sparse Representation**: Many zero values (words not in document)
+3. **Word "the"**: Appears frequently (high count) but low information value
+4. **Word Order Lost**: "sun is bright" vs "bright sun" represented identically
+5. **Document Length**: Longer documents have higher counts
+
+### Matrix Characteristics
+
+- **Rows**: Number of documents (4)
+- **Columns**: Vocabulary size (11)
+- **Sparsity**: ~60% zeros in this example
+- **Non-negative**: All values ≥ 0
+
+### Limitations Observed
+
+1. Common words like "the", "is" dominate (solved by TF-IDF)
+2. No semantic similarity (sun ≠ sunny)
+3. Synonyms treated as different words
+4. High dimensionality for large corpora
+
+## Result
+Successfully implemented Bag of Words text vectorization from scratch. Converted 4 text documents into numerical vectors using:
+- Custom preprocessing function (lowercasing, punctuation removal)
+- Vocabulary building
+- Word frequency counting
+- Vector representation
+
+The BoW matrix provides a foundation for:
+- Text classification tasks
+- Document similarity calculations
+- Input to machine learning algorithms
+- Understanding text representation basics

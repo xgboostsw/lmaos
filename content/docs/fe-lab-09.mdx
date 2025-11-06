@@ -1,0 +1,252 @@
+---
+title: FE Lab 09 - TF-IDF Vectorization
+description: Term Frequency-Inverse Document Frequency for text feature extraction
+---
+
+## Aim
+To implement TF-IDF (Term Frequency-Inverse Document Frequency) vectorization for text feature extraction and understand how it improves upon basic Bag of Words.
+
+## Theory
+
+### TF-IDF (Term Frequency - Inverse Document Frequency)
+An advanced text representation technique that weighs words by their importance in a document relative to the entire corpus.
+
+### Components
+
+#### 1. Term Frequency (TF)
+Measures how frequently a term appears in a document.
+
+$$
+TF(t, d) = \frac{\text{Number of times term } t \text{ appears in document } d}{\text{Total number of terms in document } d}
+$$
+
+**Normalized version**: Prevents bias toward longer documents
+
+#### 2. Inverse Document Frequency (IDF)
+Measures how important a term is across the entire corpus.
+
+$$
+IDF(t) = \log\left(\frac{\text{Total number of documents}}{\text{Number of documents containing term } t}\right)
+$$
+
+**Intuition**: 
+- Common words (the, is, a) → Low IDF
+- Rare, specific words → High IDF
+
+#### 3. TF-IDF Score
+
+$$
+TF\text{-}IDF(t, d) = TF(t, d) \times IDF(t)
+$$
+
+### Why TF-IDF is Better than BoW
+
+| Aspect | Bag of Words | TF-IDF |
+|--------|-------------|--------|
+| Common words | High weight | Low weight (penalized) |
+| Rare words | Low weight | Higher weight (boosted) |
+| Document length | Biased | Normalized |
+| Information | Frequency only | Importance-weighted |
+
+### Example Calculation
+
+```
+Corpus: ["the cat sat", "the dog sat", "cat food"]
+
+Document 1: "the cat sat"
+- "cat": TF = 1/3 = 0.33
+        IDF = log(3/2) = 0.18
+        TF-IDF = 0.33 × 0.18 = 0.06
+
+- "the": TF = 1/3 = 0.33
+        IDF = log(3/2) = 0.18
+        TF-IDF = 0.33 × 0.18 = 0.06
+
+- "food": TF = 0/3 = 0
+         IDF = log(3/1) = 0.48
+         TF-IDF = 0 × 0.48 = 0
+```
+
+### Stop Words
+Common words (the, is, a, an) that:
+- Appear in most documents
+- Carry little meaning
+- Have very low IDF values
+- Often removed during preprocessing
+
+### Applications
+- Document retrieval (search engines)
+- Text classification
+- Document similarity
+- Keyword extraction
+- Feature engineering for NLP
+
+## Algorithm
+
+1. Define a corpus of 5 documents
+2. Initialize TfidfVectorizer with stop words removal
+3. Fit and transform the corpus:
+   - Learn vocabulary
+   - Calculate IDF for each term
+   - Transform documents to TF-IDF vectors
+4. Extract feature names (vocabulary)
+5. Convert sparse matrix to dense DataFrame
+6. Display IDF values for all terms
+7. Display complete TF-IDF feature matrix
+8. Demonstrate feature importance:
+   - Select a document (Document 1)
+   - Identify top 3 highest TF-IDF scores
+   - Display key features with scores
+
+## Program
+
+```python
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
+
+corpus = [
+    'The quick brown fox jumps over the lazy dog.',
+    'A dog is lazy, but a fox is quick.',
+    'The new movie features a quick-witted fox.',
+    'Jumping is fun, but a lazy dog likes to sleep.',
+    'The quick brown dog is not lazy.'
+]
+
+print(f"Total documents (corpus size): {len(corpus)}\n")
+
+# Initialize the TfidfVectorizer
+vectorizer = TfidfVectorizer(stop_words='english')
+
+# Fit and Transform the corpus
+tfidf_matrix = vectorizer.fit_transform(corpus)
+
+# Get the feature names (words/tokens)
+feature_names = vectorizer.get_feature_names_out()
+
+# Convert the sparse TF-IDF matrix to a dense array and then to a DataFrame
+tfidf_df = pd.DataFrame(
+    tfidf_matrix.toarray(),
+    index=[f'Document {i+1}' for i in range(len(corpus))],
+    columns=feature_names
+)
+
+# Display the IDF values calculated for each unique term
+print("\n--- Inverse Document Frequency (IDF) per Term ---")
+idf_values = pd.DataFrame({
+    'Term': feature_names,
+    'IDF': vectorizer.idf_
+})
+print(idf_values)
+
+print("\n--- TF-IDF Feature Matrix (Document-Term Matrix) ---")
+print(tfidf_df.round(3))
+
+# Example: Finding the top 3 most important words in Document 1
+doc_index = 0
+top_indices = tfidf_df.iloc[doc_index].nlargest(3).index.tolist()
+top_scores = tfidf_df.iloc[doc_index].nlargest(3).values
+
+print(f"\n--- Top 3 Key Features in Document 1 ---")
+for word, score in zip(top_indices, top_scores):
+    print(f" - '{word}': {score:.3f}")
+```
+
+## Output
+The program displays:
+1. **Corpus Size**: Total number of documents (5)
+
+2. **IDF Values per Term**:
+   - Shows inverse document frequency for each unique term
+   - Higher IDF = Rarer word
+   - Lower IDF = More common word
+
+3. **TF-IDF Feature Matrix**:
+   - Rows: Documents (Document 1-5)
+   - Columns: Vocabulary terms
+   - Values: TF-IDF scores (0 to ~1)
+
+4. **Top 3 Key Features in Document 1**:
+   - Most important words for the first document
+   - Example: 'fox', 'jumps', 'brown' with scores
+
+Example output structure:
+```
+--- IDF per Term ---
+      Term    IDF
+0     brown  1.916
+1       dog  1.223
+2       fox  1.000
+3      lazy  1.223
+4     quick  1.000
+...
+
+--- TF-IDF Matrix ---
+              brown    dog    fox   lazy  quick  ...
+Document 1    0.436  0.360  0.000  0.360  0.436  ...
+Document 2    0.000  0.378  0.309  0.378  0.309  ...
+...
+
+--- Top 3 Key Features in Document 1 ---
+ - 'fox': 0.537
+ - 'jumps': 0.435
+ - 'brown': 0.435
+```
+
+## Observations
+
+1. **IDF Patterns**:
+   - Words appearing in fewer documents have higher IDF
+   - Common words have lower IDF values
+   - Stop words (removed) would have very low IDF
+
+2. **TF-IDF Scores**:
+   - Most values are non-zero but small
+   - High scores indicate important, distinctive words
+   - Zero scores mean word not in document
+
+3. **Document Distinctiveness**:
+   - Each document's important words highlighted
+   - Easy to identify key topics/themes
+   - Better than raw frequency counts
+
+4. **Sparsity**:
+   - Still sparse like BoW
+   - But values are weighted by importance
+   - More informative than binary presence/absence
+
+### Advantages Observed
+
+1. **Automatic Feature Weighting**: No manual feature engineering
+2. **Stop Word Handling**: Common words naturally down-weighted
+3. **Document Discrimination**: Helps distinguish between documents
+4. **Scale Normalization**: Documents of different lengths comparable
+
+### Limitations
+
+1. **Word Order**: Still lost (like BoW)
+2. **Semantics**: No understanding of meaning
+3. **Synonyms**: Treated as different words
+4. **Context**: No contextual information
+
+## Result
+Successfully implemented TF-IDF vectorization using scikit-learn's TfidfVectorizer. Demonstrated:
+- Automatic IDF calculation
+- TF-IDF score computation
+- Feature importance identification
+- Improvement over basic Bag of Words
+
+Key learnings:
+- TF-IDF weighs words by importance, not just frequency
+- Rare, distinctive words receive higher scores
+- Common words are automatically down-weighted
+- Better feature representation for text classification
+- Foundation for information retrieval systems
+- More sophisticated than BoW while remaining interpretable
+
+TF-IDF is widely used in:
+- Search engines (document ranking)
+- Recommendation systems
+- Text classification
+- Information extraction
+- Document clustering

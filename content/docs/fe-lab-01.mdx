@@ -1,0 +1,90 @@
+---
+title: FE Lab 01 - Data Exploration with Iris Dataset
+description: Basic data exploration techniques using pandas on the Iris dataset
+---
+
+## Aim
+To understand and implement basic data exploration techniques using pandas on the Iris dataset.
+
+## Theory
+
+Data exploration is the initial step in data analysis where we examine the dataset to understand its structure, content, and quality. It helps identify patterns, anomalies, missing values, and relationships between variables.
+
+### Key Concepts:
+
+1. **Dataset Overview**: Understanding the size, shape, and basic structure of data
+2. **Statistical Summary**: Calculating measures like mean, median, standard deviation
+3. **Data Types**: Identifying numerical, categorical, and other data types
+4. **Missing Values**: Detecting and analyzing null/missing data
+5. **Data Quality**: Assessing completeness and consistency
+
+### Iris Dataset:
+The Iris dataset is a classic multivariate dataset containing 150 samples of iris flowers from three species (Setosa, Versicolor, and Virginica). Each sample has four features: sepal length, sepal width, petal length, and petal width.
+
+## Algorithm
+
+1. Load the Iris dataset from sklearn
+2. Display the first few rows using `head()`
+3. Display the last few rows using `tail()`
+4. Check the shape (rows, columns) of the dataset
+5. Display dataset information (data types, non-null counts)
+6. Generate statistical summary using `describe()`
+7. List all column names
+8. Check for null/missing values
+9. Preview data after dropping NaN values
+10. Count unique values in each column
+
+## Program
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_iris
+
+# Load Iris dataset from sklearn
+iris = load_iris(as_frame=True)
+df = iris.frame   # Already a pandas DataFrame
+
+print("Head:")
+print(df.head(), "\n")
+
+print("Tail:")
+print(df.tail(), "\n")
+
+print("Shape:", df.shape, "\n")
+
+print("Info:")
+print(df.info(), "\n")
+
+print("Describe (numeric):")
+print(df.describe(), "\n")
+
+print("Columns list:")
+print(df.columns.tolist(), "\n")
+
+print("Null counts:")
+print(df.isnull().sum(), "\n")
+
+print("df.dropna() preview (not modifying original df):")
+print(df.dropna(), "\n")
+
+print("Unique counts:")
+print(df.nunique(), "\n")
+```
+
+## Output
+The program will display:
+- First 5 rows of the dataset
+- Last 5 rows of the dataset
+- Shape: (150, 5) - 150 samples, 5 columns
+- Data types and non-null counts for each column
+- Statistical summary (count, mean, std, min, quartiles, max)
+- List of all column names
+- Null value counts (should be 0 for all columns)
+- Preview after dropping NaN
+- Unique value counts per column
+
+## Result
+Successfully explored the Iris dataset using pandas, understanding its structure, statistical properties, and data quality. The dataset contains no missing values and includes 150 samples with 5 columns.

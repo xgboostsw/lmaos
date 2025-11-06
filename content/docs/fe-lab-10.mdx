@@ -1,0 +1,319 @@
+---
+title: FE Lab 10 - Feature Selection Techniques
+description: Variance Threshold, Information Gain, and Chi-Square feature selection methods
+---
+
+## Aim
+To implement and compare various feature selection techniques (Variance Threshold, Information Gain, and Chi-Square) on the Parkinson's disease dataset.
+
+## Theory
+
+### Feature Selection
+The process of selecting a subset of relevant features for model building. Reduces dimensionality, improves model performance, and decreases training time.
+
+### Why Feature Selection?
+
+1. **Curse of Dimensionality**: Too many features → Sparse data → Poor generalization
+2. **Overfitting Prevention**: Fewer features → Simpler models → Better generalization
+3. **Computational Efficiency**: Less features → Faster training → Lower costs
+4. **Interpretability**: Fewer features → Easier to understand → Better insights
+5. **Noise Reduction**: Remove irrelevant features → Better signal
+
+### Types of Feature Selection
+
+1. **Filter Methods**: Independent of ML algorithm (Variance, Chi-Square, Correlation)
+2. **Wrapper Methods**: Use ML algorithm (Forward/Backward selection, RFE)
+3. **Embedded Methods**: Built into algorithm (Lasso, Ridge, Decision Trees)
+
+## Feature Selection Methods
+
+### 1. Variance Threshold
+
+**Concept**: Remove features with low variance (near-constant values).
+
+**Logic**: Features with low variance provide little information for discrimination.
+
+**Formula**:
+$$
+Var(X) = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2
+$$
+
+**Advantages**:
+- Simple and fast
+- No target variable needed (unsupervised)
+- Good for removing constant/quasi-constant features
+
+**Disadvantages**:
+- Doesn't consider feature relevance to target
+- Threshold selection is arbitrary
+- May remove informative low-variance features
+
+**When to use**: First step to remove obviously useless features
+
+### 2. Information Gain (Mutual Information)
+
+**Concept**: Measures mutual dependence between feature and target.
+
+**Formula**:
+$$
+IG(Y, X) = H(Y) - H(Y|X)
+$$
+
+Where:
+- $H(Y)$ = Entropy of target
+- $H(Y|X)$ = Conditional entropy of target given feature
+
+**Interpretation**:
+- IG = 0: Feature provides no information about target
+- IG > 0: Feature provides information about target
+- Higher IG → More relevant feature
+
+**Advantages**:
+- Captures non-linear relationships
+- Works with categorical and continuous features
+- Considers feature relevance to target
+
+**Disadvantages**:
+- Computationally expensive
+- Doesn't capture feature interactions
+- Biased toward high-cardinality features
+
+**When to use**: General-purpose feature selection, especially with mixed data types
+
+### 3. Chi-Square Test (χ²)
+
+**Concept**: Statistical test measuring independence between categorical variables.
+
+**Formula**:
+$$
+\chi^2 = \sum_{i=1}^{k}\frac{(O_i - E_i)^2}{E_i}
+$$
+
+Where:
+- $O_i$ = Observed frequency
+- $E_i$ = Expected frequency
+
+**Null Hypothesis**: Feature and target are independent
+
+**Interpretation**:
+- High χ² score → Feature and target are dependent (good)
+- Low χ² score → Feature and target are independent (bad)
+
+**Advantages**:
+- Fast computation
+- Statistical significance (p-values)
+- Works well with categorical data
+
+**Disadvantages**:
+- **Requires non-negative values** (use MinMaxScaler)
+- Assumes feature independence
+- Only captures linear relationships
+- Sensitive to small expected frequencies
+
+**When to use**: Categorical features or scaled continuous features with classification tasks
+
+### Comparison Table
+
+| Method | Type | Target Needed | Captures Non-linear | Speed |
+|--------|------|---------------|---------------------|-------|
+| Variance Threshold | Unsupervised | No | N/A | Very Fast |
+| Information Gain | Supervised | Yes | Yes | Medium |
+| Chi-Square | Supervised | Yes | No | Fast |
+
+## Algorithm
+
+1. Load Parkinson's disease dataset from UCI repository
+2. Display dataset overview (head)
+3. Separate features (X) and target (y)
+   - Target: 'status' column (1=Parkinson's, 0=Healthy)
+   - Drop: 'name' (identifier), 'status' (target)
+4. Scale features using MinMaxScaler
+   - Required for Chi-Square (non-negative values)
+5. **Variance Threshold**:
+   - Set threshold = 0.01
+   - Fit and transform features
+   - Identify selected features
+   - Display selected feature names
+6. **Information Gain**:
+   - Calculate mutual information for all features
+   - Sort by descending scores
+   - Display all scores
+   - Select top 10 features
+7. **Chi-Square Test**:
+   - Calculate chi-square scores for all features
+   - Sort by descending scores
+   - Display all scores
+   - Select top 10 features
+8. **Summary**:
+   - Display total features
+   - Display features after variance threshold
+   - Display top 10 by Information Gain
+   - Display top 10 by Chi-Square
+
+## Program
+
+```python
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+from sklearn.feature_selection import mutual_info_classif, chi2, VarianceThreshold
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
+
+# Load dataset
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/parkinsons/parkinsons.data"
+data = pd.read_csv(url)
+
+# Display first few rows
+print("Dataset Loaded Successfully!\n")
+print(data.head())
+
+# 'status' column is the target variable (1 = Parkinson's, 0 = Healthy)
+X = data.drop(columns=['name', 'status'])
+y = data['status']
+
+# Scale features for chi-square (as it requires non-negative values)
+scaler = MinMaxScaler()
+X_scaled = pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
+
+# Variance Threshold
+print("\n--- Variance Threshold ---")
+vt = VarianceThreshold(threshold=0.01)  # Remove features with low variance
+X_vt = vt.fit_transform(X_scaled)
+selected_features_vt = X.columns[vt.get_support()]
+print(f"Features selected ({len(selected_features_vt)} features): {list(selected_features_vt)}")
+
+# Information Gain
+print("\n--- Information Gain ---")
+info_gain = mutual_info_classif(X_scaled, y)
+info_gain_series = pd.Series(info_gain, index=X.columns)
+info_gain_series = info_gain_series.sort_values(ascending=False)
+print(info_gain_series)
+
+# Select top 10 based on Information Gain
+top_info_gain = info_gain_series.head(10)
+print("\nTop 10 Features based on Information Gain:")
+print(top_info_gain)
+
+# Chi-Square Test
+print("\n--- Chi-Square Test ---")
+chi_scores, p_values = chi2(X_scaled, y)
+chi2_series = pd.Series(chi_scores, index=X.columns).sort_values(ascending=False)
+print(chi2_series)
+
+# Select top 10 based on Chi-Square
+top_chi2 = chi2_series.head(10)
+print("\nTop 10 Features based on Chi-Square Test:")
+print(top_chi2)
+
+# Summary
+print("\n--- Summary ---")
+print(f"Total Features: {X.shape[1]}")
+print(f"Features after Variance Threshold: {len(selected_features_vt)}")
+print("\nTop 10 Features by Information Gain:")
+print(list(top_info_gain.index))
+print("\nTop 10 Features by Chi-Square:")
+print(list(top_chi2.index))
+```
+
+## Output
+The program displays:
+
+1. **Dataset Head**: First 5 rows of Parkinson's dataset
+
+2. **Variance Threshold Results**:
+   - Number of features selected
+   - List of selected feature names
+   - Example: ~20+ features retained (low-variance removed)
+
+3. **Information Gain Scores**:
+   - All features ranked by mutual information
+   - Higher scores = More informative features
+   - Top 10 features identified
+
+4. **Chi-Square Scores**:
+   - All features ranked by chi-square statistic
+   - Higher scores = Stronger dependency
+   - Top 10 features identified
+
+5. **Summary**:
+   - Total features: 22
+   - Features after Variance Threshold: ~20+
+   - Top 10 by Information Gain
+   - Top 10 by Chi-Square
+
+## Observations
+
+### 1. Variance Threshold
+- Removed ~1-2 quasi-constant features
+- Fast preprocessing step
+- Doesn't guarantee relevance
+
+### 2. Information Gain
+- Identifies features with strong target relationship
+- Captures complex patterns
+- Some overlap with Chi-Square top features
+
+### 3. Chi-Square
+- Similar but not identical to Information Gain
+- Good for linear relationships
+- Statistical foundation (p-values available)
+
+### 4. Feature Overlap
+- Some features appear in both top-10 lists
+- These are likely the most important
+- Different methods capture different aspects
+
+### 5. Practical Insights
+- Use multiple methods for robustness
+- Combine results (intersection or union)
+- Validate with actual model performance
+- Domain knowledge matters
+
+## Method Selection Guide
+
+**Use Variance Threshold when**:
+- First preprocessing step
+- Many constant/quasi-constant features
+- Quick dimensionality reduction needed
+
+**Use Information Gain when**:
+- Non-linear relationships expected
+- Mixed data types
+- Want robust feature ranking
+
+**Use Chi-Square when**:
+- Categorical features
+- Linear relationships
+- Need statistical significance testing
+- Fast computation required
+
+## Best Practices
+
+1. **Scale Data**: Always scale before Chi-Square
+2. **Multiple Methods**: Use 2-3 methods, compare results
+3. **Validation**: Test selected features with actual model
+4. **Threshold Tuning**: Experiment with different thresholds
+5. **Domain Knowledge**: Combine with expert knowledge
+6. **Stability**: Check if selected features are stable across samples
+
+## Result
+Successfully implemented and compared three feature selection techniques on the Parkinson's disease dataset:
+
+1. **Variance Threshold**: Removed low-variance features efficiently
+2. **Information Gain**: Ranked features by mutual information with target
+3. **Chi-Square**: Identified statistically significant features
+
+Key learnings:
+- Different methods select different (but overlapping) features
+- No single "best" method—depends on data and problem
+- Combining methods provides robust feature selection
+- Feature selection improves model performance and interpretability
+- Critical preprocessing step for high-dimensional data
+
+Practical applications:
+- Biomedical data (as shown with Parkinson's dataset)
+- Text classification (high-dimensional sparse data)
+- Image processing (many pixel features)
+- Genomics (thousands of genes)
+- Financial modeling (many indicators)

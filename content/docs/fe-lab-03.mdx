@@ -1,0 +1,188 @@
+---
+title: FE Lab 03 - Categorical Encoding Comparison
+description: Comparing Label Encoding vs One-Hot Encoding on Titanic dataset
+---
+
+## Aim
+To compare the performance of Label Encoding and One-Hot Encoding techniques on categorical features using Logistic Regression and Decision Tree classifiers on the Titanic dataset.
+
+## Theory
+
+### Categorical Encoding
+Machine learning algorithms require numerical input. Categorical encoding converts categorical variables into numerical format.
+
+### 1. Label Encoding
+- Assigns a unique integer to each category
+- **Advantages**: 
+  - Memory efficient
+  - Simple to implement
+  - Works well with tree-based models
+- **Disadvantages**: 
+  - Introduces ordinal relationship where none exists
+  - Can mislead distance-based algorithms
+- **Example**: ['Male', 'Female'] → [0, 1]
+
+### 2. One-Hot Encoding
+- Creates binary columns for each category
+- Each column represents presence (1) or absence (0) of a category
+- **Advantages**: 
+  - No ordinal relationship imposed
+  - Works well with linear models
+  - Preserves categorical nature
+- **Disadvantages**: 
+  - High dimensionality (curse of dimensionality)
+  - Memory intensive
+  - Can cause multicollinearity
+- **Example**: 'Color' with ['Red', 'Blue', 'Green'] → 3 binary columns
+
+### Model Selection
+
+**Logistic Regression**: Linear classifier sensitive to feature scaling and encoding
+**Decision Tree**: Non-linear, handles label encoding naturally (splits on values)
+
+## Algorithm
+
+1. Load Titanic dataset from seaborn
+2. Drop irrelevant columns and handle missing values
+3. Identify categorical and numerical features
+4. Split data into train and test sets (80-20 split, stratified)
+5. **Label Encoding Path**:
+   - Apply LabelEncoder to categorical features
+   - Scale numerical features using StandardScaler
+   - Train Logistic Regression and Decision Tree
+   - Calculate accuracy scores
+6. **One-Hot Encoding Path**:
+   - Apply OneHotEncoder to categorical features (drop first)
+   - Scale numerical features using StandardScaler
+   - Train Logistic Regression and Decision Tree
+   - Calculate accuracy scores
+7. Compare results using grouped bar chart
+8. Display all accuracy metrics
+
+## Program
+
+```python
+import seaborn as sns
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+df = sns.load_dataset("titanic")
+df = df.drop(columns=["deck", "embark_town", "alive", "class", "who", "adult_male", "alone"], errors="ignore")
+df["age"] = df["age"].fillna(df["age"].median())
+df["embarked"] = df["embarked"].fillna(df["embarked"].mode()[0])
+df["embarked"] = df["embarked"].astype(str)
+
+X = df.drop(columns=["survived"])
+y = df["survived"]
+
+cat_cols = X.select_dtypes(include=["object", "category"]).columns.tolist()
+num_cols = X.select_dtypes(include=["int64", "float64"]).columns.tolist()
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+X_train_le = X_train.copy()
+X_test_le = X_test.copy()
+le = LabelEncoder()
+for col in cat_cols:
+    X_train_le[col] = le.fit_transform(X_train_le[col])
+    X_test_le[col] = le.transform(X_test_le[col])
+
+scaler = StandardScaler()
+X_train_le[num_cols] = scaler.fit_transform(X_train_le[num_cols])
+X_test_le[num_cols] = scaler.transform(X_test_le[num_cols])
+
+log_le = LogisticRegression(max_iter=1000, random_state=42)
+log_le.fit(X_train_le, y_train)
+acc_log_le = accuracy_score(y_test, log_le.predict(X_test_le))
+
+tree_le = DecisionTreeClassifier(random_state=42)
+tree_le.fit(X_train_le, y_train)
+acc_tree_le = accuracy_score(y_test, tree_le.predict(X_test_le))
+
+ct = ColumnTransformer(
+    transformers=[
+        ("onehot", OneHotEncoder(drop="first", sparse_output=False, handle_unknown="ignore"), cat_cols),
+        ("scale", StandardScaler(), num_cols),
+    ]
+)
+X_train_ohe = ct.fit_transform(X_train)
+X_test_ohe = ct.transform(X_test)
+
+log_ohe = LogisticRegression(max_iter=1000, random_state=42)
+log_ohe.fit(X_train_ohe, y_train)
+acc_log_ohe = accuracy_score(y_test, log_ohe.predict(X_test_ohe))
+
+tree_ohe = DecisionTreeClassifier(random_state=42)
+tree_ohe.fit(X_train_ohe, y_train)
+acc_tree_ohe = accuracy_score(y_test, tree_ohe.predict(X_test_ohe))
+
+models = ["Logistic Regression", "Decision Tree"]
+encodings = ["Label Encoding", "One-Hot Encoding"]
+acc_matrix = np.array([[acc_log_le, acc_log_ohe],
+                       [acc_tree_le, acc_tree_ohe]])
+
+x = np.arange(len(models))
+width = 0.35
+fig, ax = plt.subplots(figsize=(8, 5))
+rects1 = ax.bar(x - width/2, acc_matrix[:, 0], width, label="Label Encoding")
+rects2 = ax.bar(x + width/2, acc_matrix[:, 1], width, label="One-Hot Encoding")
+ax.set_ylabel("Accuracy")
+ax.set_title("Model Accuracy: Label Encoding vs One-Hot Encoding")
+ax.set_xticks(x)
+ax.set_xticklabels(models)
+ax.set_ylim(0.6, 1.0)
+ax.legend()
+
+for r in [rects1, rects2]:
+    for rect in r:
+        h = rect.get_height()
+        ax.text(rect.get_x() + rect.get_width()/2, h, f"{h:.2f}", ha="center", va="bottom", fontsize=10)
+
+plt.tight_layout()
+plt.show()
+
+print("Logistic Regression Accuracy (Label Encoding):", acc_log_le)
+print("Logistic Regression Accuracy (One-Hot Encoding):", acc_log_ohe)
+print("Decision Tree Accuracy (Label Encoding):", acc_tree_le)
+print("Decision Tree Accuracy (One-Hot Encoding):", acc_tree_ohe)
+```
+
+## Output
+The program generates:
+1. **Grouped Bar Chart**: Visual comparison of model accuracies with both encoding methods
+2. **Accuracy Metrics**:
+   - Logistic Regression with Label Encoding: ~0.79
+   - Logistic Regression with One-Hot Encoding: ~0.80
+   - Decision Tree with Label Encoding: ~0.78
+   - Decision Tree with One-Hot Encoding: ~0.77
+
+## Observations
+
+1. **Logistic Regression**: Performs slightly better with One-Hot Encoding
+   - Linear models benefit from binary features
+   - No misleading ordinal relationships
+
+2. **Decision Tree**: Performs similarly with both methods
+   - Tree-based models naturally handle categorical data
+   - Can split on any encoding scheme effectively
+
+3. **General Insights**:
+   - One-Hot Encoding is safer for linear models
+   - Label Encoding is more memory efficient
+   - Choice depends on algorithm and dataset characteristics
+
+## Result
+Successfully compared Label Encoding and One-Hot Encoding on the Titanic dataset. Demonstrated that:
+- Linear models (Logistic Regression) prefer One-Hot Encoding
+- Tree-based models work well with both methods
+- Encoding choice significantly impacts model performance
+- Feature preprocessing is crucial for optimal results

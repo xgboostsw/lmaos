@@ -1,0 +1,229 @@
+---
+title: FE Lab 06 - Binning and Discretization
+description: Quantization and binning techniques for continuous features
+---
+
+## Aim
+To implement and compare various binning and discretization techniques for converting continuous features into categorical bins using the Breast Cancer dataset.
+
+## Theory
+
+### Discretization
+The process of transforming continuous variables into discrete bins or categories. Also known as binning or quantization.
+
+### Why Discretize?
+
+1. **Reduce Noise**: Smooth out minor variations
+2. **Handle Outliers**: Group extreme values with similar data
+3. **Simplify Models**: Reduce complexity, improve interpretability
+4. **Create Non-linear Features**: Enable linear models to capture non-linear patterns
+5. **Memory Efficiency**: Fewer unique values to store
+
+### Types of Binning
+
+#### 1. Equal-Width Binning (Uniform)
+- Divides the range into bins of equal size
+- **Formula**: $bin\_width = \frac{max - min}{n\_bins}$
+- **Advantages**: Simple, intuitive
+- **Disadvantages**: Sensitive to outliers, may create empty bins
+
+#### 2. Equal-Frequency Binning (Quantile)
+- Each bin contains approximately the same number of samples
+- Uses quantiles/percentiles
+- **Advantages**: Better distribution of samples, robust to outliers
+- **Disadvantages**: Bin edges may not be intuitive
+
+#### 3. K-Bins Discretization
+- Sklearn's implementation supporting multiple strategies
+- **Strategies**:
+  - `uniform`: Equal-width bins
+  - `quantile`: Equal-frequency bins
+  - `kmeans`: Bins based on k-means clustering
+- **Encoding options**:
+  - `ordinal`: Returns bin identifier (0, 1, 2, ...)
+  - `onehot`: Returns one-hot encoded bins
+  - `onehot-dense`: Dense array one-hot encoding
+
+### Binning Process
+
+```
+Original: [1.2, 3.5, 2.1, 4.8, 5.2, 6.1]
+         ↓ (Equal-width, 3 bins)
+Binned:   [0,   1,   0,   1,   2,   2]
+Labels:   Low, Med, Low, Med, High, High
+```
+
+## Algorithm
+
+1. Load Breast Cancer dataset
+2. Separate continuous features from target
+3. **Quantization using KBinsDiscretizer**:
+   - Apply uniform strategy with 5 bins
+   - Transform all continuous features
+   - Create quantized dataframe
+4. **Equal-Width Binning**:
+   - Define custom function for equal-width bins
+   - Apply to all features with 4 bins
+   - Add binned features to dataframe
+5. **Combine transformations**:
+   - Merge original, quantized, and binned features
+6. **Visualization**:
+   - Select representative features
+   - Create 3-panel plots for each:
+     - Original histogram
+     - Quantized distribution
+     - Equal-width binned distribution
+7. **Alternative Implementation**:
+   - Use pandas `cut()` for equal-width
+   - Use pandas `qcut()` for equal-frequency
+   - Compare results
+
+## Program
+
+```python
+# Quantization and Binning Visualization
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import KBinsDiscretizer
+from sklearn.datasets import load_breast_cancer
+
+np.random.seed(42)
+
+cancer = load_breast_cancer()
+df = pd.DataFrame(cancer.data, columns=cancer.feature_names)
+df["target"] = cancer.target
+
+continuous_features = [c for c in df.columns if c != "target"]
+
+quantizer = KBinsDiscretizer(n_bins=5, encode="ordinal", strategy="uniform")
+quantized_data = quantizer.fit_transform(df[continuous_features])
+df_quantized = pd.DataFrame(quantized_data, columns=continuous_features)
+
+df_with_quantized = df.copy()
+for col in df_quantized.columns:
+    df_with_quantized[col + "_quantized"] = df_quantized[col].astype(int)
+
+def equal_width_bins(series, n_bins=4, labels=None):
+    bins = np.linspace(series.min(), series.max(), n_bins + 1)
+    if labels is None:
+        labels = [f"b{i}" for i in range(n_bins)]
+    return pd.cut(series, bins=bins, labels=labels, include_lowest=True)
+
+df_binned = pd.DataFrame(index=df.index)
+for col in continuous_features:
+    df_binned[col + "_bin_width"] = equal_width_bins(df[col], n_bins=4)
+
+df_transformed = df.copy()
+for col in continuous_features:
+    df_transformed[col + "_quantized"] = df_quantized[col].astype(int)
+    df_transformed[col + "_bin_width"] = df_binned[col + "_bin_width"]
+
+print("Shape of final DataFrame:", df_transformed.shape)
+
+features_to_plot = ["mean radius", "mean texture", "mean perimeter"]
+for feature in features_to_plot:
+    plt.figure(figsize=(15, 4))
+
+    plt.subplot(1, 3, 1)
+    plt.hist(df[feature], bins=20, color="skyblue", edgecolor="black")
+    plt.title(f"{feature} - Original")
+    plt.xlabel(feature)
+    plt.ylabel("Count")
+
+    plt.subplot(1, 3, 2)
+    df_transformed[feature + "_quantized"].value_counts().sort_index().plot(
+        kind="bar", color="orange", edgecolor="black"
+    )
+    plt.title(f"{feature} - Quantized (5 bins)")
+    plt.xlabel("Bin")
+    plt.ylabel("Count")
+
+    plt.subplot(1, 3, 3)
+    df_transformed[feature + "_bin_width"].value_counts().sort_index().plot(
+        kind="bar", color="green", edgecolor="black"
+    )
+    plt.title(f"{feature} - Binned (Equal-width, 4 bins)")
+    plt.xlabel("Bin")
+    plt.ylabel("Count")
+
+    plt.tight_layout()
+    plt.show()
+
+
+# Equal-width and Equal-frequency Binning
+import numpy as np
+import pandas as pd
+from sklearn.datasets import load_breast_cancer
+
+data = load_breast_cancer()
+df = pd.DataFrame(data.data, columns=data.feature_names)
+df["target"] = data.target
+
+continuous_features = df.drop(columns=["target"])
+print("Selected continuous features for transformation:")
+print(continuous_features.describe())
+
+df_binned = df.copy()
+for col in continuous_features.columns:
+    df_binned[col + "_bin_width"] = pd.cut(df[col], bins=4, labels=[0, 1, 2, 3])
+    df_binned[col + "_bin_freq"] = pd.qcut(df[col], q=4, labels=[0, 1, 2, 3], duplicates="drop")
+
+print("\nFirst 5 rows with binned features added:")
+print(df_binned.head())
+```
+
+## Output
+The program generates:
+1. **Shape Information**: Final dataframe dimensions with all transformations
+2. **Visualization for Selected Features**:
+   - Mean radius, mean texture, mean perimeter
+   - Three plots per feature:
+     - Original continuous distribution (histogram)
+     - Quantized distribution (5 bins, bar plot)
+     - Equal-width binned distribution (4 bins, bar plot)
+3. **Dataframe Preview**: First 5 rows showing binned features
+
+## Observations
+
+1. **Original Distribution**:
+   - Continuous values with varying ranges
+   - Some features show normal distribution
+   - Others show skewed patterns
+
+2. **Quantized (5 bins, uniform)**:
+   - More granular discretization
+   - Even bin widths
+   - May have uneven sample distribution
+
+3. **Equal-Width (4 bins)**:
+   - Coarser grouping
+   - Simpler interpretation
+   - Potential for imbalanced bins
+
+4. **Comparison**:
+   - More bins → More information retained
+   - Fewer bins → More generalization
+   - Choice depends on use case
+
+### When to Use Which Method?
+
+| Method | Use Case |
+|--------|----------|
+| Equal-Width | Uniform distribution, clear ranges |
+| Equal-Frequency | Skewed data, want balanced bins |
+| K-Means | Complex distributions, natural clusters |
+
+## Result
+Successfully implemented multiple binning and discretization techniques on the Breast Cancer dataset. Demonstrated:
+- KBinsDiscretizer with uniform strategy
+- Custom equal-width binning function
+- Pandas cut() and qcut() methods
+- Visual comparison of original vs. discretized features
+- Trade-offs between bin count and information retention
+
+Binning is effective for:
+- Reducing noise and outliers
+- Creating categorical features for certain algorithms
+- Improving model interpretability
+- Handling non-linear relationships
