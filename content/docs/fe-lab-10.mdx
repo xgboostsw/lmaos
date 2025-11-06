@@ -34,9 +34,10 @@ The process of selecting a subset of relevant features for model building. Reduc
 **Logic**: Features with low variance provide little information for discrimination.
 
 **Formula**:
-$$
-Var(X) = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2
-$$
+
+```
+Var(X) = (1/n) × Σ(xᵢ - x̄)²
+```
 
 **Advantages**:
 - Simple and fast
@@ -55,13 +56,14 @@ $$
 **Concept**: Measures mutual dependence between feature and target.
 
 **Formula**:
-$$
+
+```
 IG(Y, X) = H(Y) - H(Y|X)
-$$
+```
 
 Where:
-- $H(Y)$ = Entropy of target
-- $H(Y|X)$ = Conditional entropy of target given feature
+- H(Y) = Entropy of target
+- H(Y|X) = Conditional entropy of target given feature
 
 **Interpretation**:
 - IG = 0: Feature provides no information about target
@@ -85,13 +87,14 @@ Where:
 **Concept**: Statistical test measuring independence between categorical variables.
 
 **Formula**:
-$$
-\chi^2 = \sum_{i=1}^{k}\frac{(O_i - E_i)^2}{E_i}
-$$
+
+```
+χ² = Σ[(Oᵢ - Eᵢ)² / Eᵢ]
+```
 
 Where:
-- $O_i$ = Observed frequency
-- $E_i$ = Expected frequency
+- Oᵢ = Observed frequency
+- Eᵢ = Expected frequency
 
 **Null Hypothesis**: Feature and target are independent
 

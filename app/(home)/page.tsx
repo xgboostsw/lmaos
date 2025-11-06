@@ -44,13 +44,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp1FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
 
@@ -68,13 +61,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp2FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
 
@@ -92,13 +78,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp3FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
 
@@ -116,13 +95,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp4FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
 
@@ -140,13 +112,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp5FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
 
@@ -164,13 +129,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp6FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
 
@@ -188,13 +146,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp7FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
 
@@ -212,13 +163,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp8FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
 
@@ -236,13 +180,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp9FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
 
@@ -260,13 +197,6 @@ export default function HomePage() {
                   <Info className="w-3 h-3" />
                   Show details
                 </Link>
-                <button 
-                  onClick={() => openInColab('exp10FE')}
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-accent transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  Open
-                </button>
               </div>
             </div>
           </div>

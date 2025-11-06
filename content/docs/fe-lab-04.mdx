@@ -15,9 +15,10 @@ Feature scaling is a preprocessing technique that standardizes the range of inde
 Transforms features to a fixed range, typically [0, 1].
 
 **Formula**:
-$$
-X_{scaled} = \frac{X - X_{min}}{X_{max} - X_{min}}
-$$
+
+```
+X_scaled = (X - X_min) / (X_max - X_min)
+```
 
 **Properties**:
 - Preserves the shape of original distribution

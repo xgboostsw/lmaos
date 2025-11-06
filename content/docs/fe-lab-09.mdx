@@ -16,18 +16,18 @@ An advanced text representation technique that weighs words by their importance 
 #### 1. Term Frequency (TF)
 Measures how frequently a term appears in a document.
 
-$$
-TF(t, d) = \frac{\text{Number of times term } t \text{ appears in document } d}{\text{Total number of terms in document } d}
-$$
+```
+TF(t, d) = (Number of times term t appears in document d) / (Total number of terms in document d)
+```
 
 **Normalized version**: Prevents bias toward longer documents
 
 #### 2. Inverse Document Frequency (IDF)
 Measures how important a term is across the entire corpus.
 
-$$
-IDF(t) = \log\left(\frac{\text{Total number of documents}}{\text{Number of documents containing term } t}\right)
-$$
+```
+IDF(t) = log(Total number of documents / Number of documents containing term t)
+```
 
 **Intuition**: 
 - Common words (the, is, a) → Low IDF
@@ -35,9 +35,9 @@ $$
 
 #### 3. TF-IDF Score
 
-$$
-TF\text{-}IDF(t, d) = TF(t, d) \times IDF(t)
-$$
+```
+TF-IDF(t, d) = TF(t, d) × IDF(t)
+```
 
 ### Why TF-IDF is Better than BoW
 
